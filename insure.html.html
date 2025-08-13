@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>InsureLead Pro - Premium</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { background: linear-gradient(180deg, #0d0d0d, #1a1a1a); color: #f9f9f9; font-family: 'Inter', sans-serif; }
+  .glass { background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(12px); border-radius: 1rem; border: 1px solid rgba(255, 255, 255, 0.1); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .glass:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+  .gold { color: #d4af37; }
+  .btn { padding: 0.5rem 1rem; border-radius: 9999px; font-weight: 600; transition: background 0.2s ease; }
+  .btn-gold { background-color: #d4af37; color: black; }
+  .btn-gold:hover { background-color: #b8962e; }
+  .btn-dark { background-color: #1a1a1a; color: white; }
+  header { position: sticky; top: 0; z-index: 50; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); }
+  video { border-radius: 0.5rem; }
+</style>
+</head>
+<body class="p-4">
+<header class="flex justify-between items-center mb-6 p-4 shadow-lg">
+  <h1 class="text-2xl font-bold gold">InsureLead Pro</h1>
+  <nav class="space-x-2 flex flex-wrap">
+    <button onclick="showSection('dashboard')" class="btn btn-dark">Dashboard</button>
+    <button onclick="showSection('pipeline')" class="btn btn-dark">Pipeline</button>
+    <button onclick="showSection('training')" class="btn btn-dark">Training</button>
+    <button onclick="showSection('agents')" class="btn btn-dark">Agents</button>
+    <button onclick="showSection('chat')" class="btn btn-dark">Chat</button>
+  </nav>
+</header>
+
+<!-- Dashboard -->
+<section id="dashboard" class="glass p-6">
+  <h2 class="text-xl font-bold mb-4">Dashboard Overview</h2>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="glass p-4">
+      <p class="text-sm">Total Leads</p>
+      <p class="text-2xl font-bold gold" id="totalLeads">0</p>
+    </div>
+    <div class="glass p-4">
+      <p class="text-sm">Closed Sales</p>
+      <p class="text-2xl font-bold gold" id="closedSales">0</p>
+    </div>
+    <div class="glass p-4">
+      <p class="text-sm">Premium This Month</p>
+      <p class="text-2xl font-bold gold" id="monthlyPremium">$0</p>
+    </div>
+    <div class="glass p-4">
+      <p class="text-sm">Active Agents</p>
+      <p class="text-2xl font-bold gold" id="activeAgents">0</p>
+    </div>
+  </div>
+</section>
+
+<!-- Pipeline -->
+<section id="pipeline" class="glass p-6 hidden">
+  <h2 class="text-xl font-bold mb-4">Sales Pipeline</h2>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4" id="pipelineColumns">
+    <div><h3 class="font-bold mb-2">New</h3><div id="col-new" class="space-y-2 min-h-[50px]"></div></div>
+    <div><h3 class="font-bold mb-2">Contacted</h3><div id="col-contacted" class="space-y-2 min-h-[50px]"></div></div>
+    <div><h3 class="font-bold mb-2">Proposal</h3><div id="col-proposal" class="space-y-2 min-h-[50px]"></div></div>
+    <div><h3 class="font-bold mb-2">Closed</h3><div id="col-closed" class="space-y-2 min-h-[50px]"></div></div>
+  </div>
+</section>
+
+<!-- Training -->
+<section id="training" class="glass p-6 hidden">
+  <h2 class="text-xl font-bold mb-4">Training Center</h2>
+  <details class="glass p-4 mb-2">
+    <summary class="cursor-pointer gold font-bold">Needs Analysis</summary>
+    <p class="mt-2">Discover client goals, current coverage, and gaps before making recommendations.</p>
+    <video src="https://samplelib.com/lib/preview/mp4/sample-5s.mp4" controls width="100%"></video>
+  </details>
+  <details class="glass p-4 mb-2">
+    <summary class="cursor-pointer gold font-bold">Appointment Setting</summary>
+    <p class="mt-2">Use the alternative-choice close to confirm meetings.</p>
+    <video src="https://samplelib.com/lib/preview/mp4/sample-5s.mp4" controls width="100%"></video>
+  </details>
+  <details class="glass p-4 mb-2">
+    <summary class="cursor-pointer gold font-bold">Objection Handling</summary>
+    <p class="mt-2">Address concerns with empathy and facts.</p>
+    <video src="https://samplelib.com/lib/preview/mp4/sample-5s.mp4" controls width="100%"></video>
+  </details>
+  <details class="glass p-4">
+    <summary class="cursor-pointer gold font-bold">Compliance</summary>
+    <p class="mt-2">Always provide buyer's guide & disclosures for replacements.</p>
+    <video src="https://samplelib.com/lib/preview/mp4/sample-5s.mp4" controls width="100%"></video>
+  </details>
+</section>
+
+<!-- Agents -->
+<section id="agents" class="glass p-6 hidden">
+  <h2 class="text-xl font-bold mb-4">Agents</h2>
+  <ul id="agentList" class="space-y-2"></ul>
+</section>
+
+<!-- Chat -->
+<section id="chat" class="glass p-6 hidden">
+  <h2 class="text-xl font-bold mb-4">Team Chat</h2>
+  <div id="chatMessages" class="space-y-2 mb-4 max-h-64 overflow-y-auto"></div>
+  <div class="flex space-x-2">
+    <input id="chatInput" class="flex-grow p-2 rounded bg-gray-800" placeholder="Type a message..." />
+    <button onclick="sendMessage()" class="btn btn-gold">Send</button>
+  </div>
+</section>
+
+<!-- Floating Action Button -->
+<button onclick="addLead()" class="fixed bottom-6 right-6 btn btn-gold shadow-lg">+ Lead</button>
+
+<script>
+const sections = ['dashboard', 'pipeline', 'training', 'agents', 'chat'];
+function showSection(id) {
+  sections.forEach(s => document.getElementById(s).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+
+let leads = [
+  { id: 1, name: "John Smith", stage: "new", premium: 500 },
+  { id: 2, name: "Jane Doe", stage: "contacted", premium: 800 },
+  { id: 3, name: "Mike Johnson", stage: "proposal", premium: 1200 },
+];
+let agents = ["Alice", "Bob", "Charlie"];
+let chat = [];
+
+function renderPipeline() {
+  ['new', 'contacted', 'proposal', 'closed'].forEach(stage => {
+    const col = document.getElementById(`col-${stage}`);
+    col.innerHTML = '';
+    leads.filter(l => l.stage === stage).forEach(l => {
+      const div = document.createElement('div');
+      div.className = 'glass p-2 flex justify-between items-center';
+      div.innerHTML = `<span>${l.name} - $${l.premium}</span>
+        <button class="btn btn-gold" onclick="moveLead(${l.id})">Next</button>`;
+      col.appendChild(div);
+    });
+  });
+}
+function moveLead(id) {
+  const stages = ['new', 'contacted', 'proposal', 'closed'];
+  let lead = leads.find(l => l.id === id);
+  let idx = stages.indexOf(lead.stage);
+  if (idx < stages.length - 1) {
+    lead.stage = stages[idx + 1];
+    renderPipeline();
+    updateDashboard();
+  }
+}
+function updateDashboard() {
+  document.getElementById('totalLeads').innerText = leads.length;
+  document.getElementById('closedSales').innerText = leads.filter(l => l.stage === 'closed').length;
+  document.getElementById('monthlyPremium').innerText = '$' + leads.reduce((sum, l) => sum + (l.stage === 'closed' ? l.premium : 0), 0);
+  document.getElementById('activeAgents').innerText = agents.length;
+}
+function renderAgents() {
+  const list = document.getElementById('agentList');
+  list.innerHTML = '';
+  agents.forEach(a => {
+    const li = document.createElement('li');
+    li.className = 'glass p-2';
+    li.innerText = a;
+    list.appendChild(li);
+  });
+}
+function renderChat() {
+  const container = document.getElementById('chatMessages');
+  container.innerHTML = '';
+  chat.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'glass p-2';
+    div.innerText = m;
+    container.appendChild(div);
+  });
+}
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  if (input.value.trim()) {
+    chat.push(input.value.trim());
+    input.value = '';
+    renderChat();
+  }
+}
+function addLead() {
+  const name = prompt("Enter lead name:");
+  const premium = parseInt(prompt("Enter premium amount:"), 10) || 0;
+  if (name) {
+    leads.push({ id: Date.now(), name, stage: "new", premium });
+    renderPipeline();
+    updateDashboard();
+  }
+}
+
+renderPipeline();
+renderAgents();
+updateDashboard();
+renderChat();
+</script>
+</body>
+</html>
